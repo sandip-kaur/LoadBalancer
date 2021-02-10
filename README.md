@@ -1,14 +1,13 @@
 # LoadBalancer
 
-This program implements LoadBalancer in client-server mode, where the server acts as the LoadBalancer and the clients act as Providers.
-The LoadBalancer starts first and the Providers come up after that binding to the LoadBalancer using:
+This program implements LoadBalancer in client-server mode, where the server acts as the LoadBalancer and the clients act as Providers. The same program works both as client and server.
+I have used CLion free source editor to create and execute C++ program that supports C++14 as well. So open the project in CLion, build and run it. This will kick off the LoadBalancer(server).
+Once the LoadBalancer is up, start the client from terminal window to bind on port 8888 using:
 
 nc localhost 8888 on MacOS, using netcat which is equivalent to telnet
 
+There can be multiple Providers connected to the LoadBalancer. There are still many limitations to the program, some of them are as mentioned below:
 
-
-Some limitations to this
- * solution:
  * 1) Once the LoadBalancer( the server) is up, the clients(Providers) can connect to it. As soon as the LoadBalancer goes down all
  * , all the clients connected to it are also down.
  * 2) Initially when a Provider comes up, it's unique identifier is generated and it is marked as 'Free'
