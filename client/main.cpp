@@ -1,15 +1,4 @@
-/* Implement LoadBalancer functionality with a Server and multiple clients , there are some limitations to this
- * solution:
- * 1) Once the LoadBalancer( the server) is up, the clients(Providers) can connect to it. As soon as the LoadBalancer goes down all
- * , all the clients connected to it are also down.
- * 2) Initially when a Provider comes up, it's unique identifier is generated and it is marked as 'Free'
- * 3) If a Provider(client) disconnects, it sends a message to the LoadBalancer(server). There is no means of soft delete
- * at the moment in the program.
- * 4) The call of randomProvider and roundRobinProvider has been driven by a string of 'rand' or 'rRobin' passed from the
- * Provider(client)
- * 5) There is no way of HealthCheck At the moment as the Provider(client) is either up and running or disconnects using ctrl+C
- * , these are only 2 states.( Future enhancement - how to handle this further in this scenario)
- * 6) Once a Provider is allocated it has to be disconnected, there is no provision of freeing( Future enhancement)
+/* Implement LoadBalancer functionality with a Server and multiple clients ion of freeing( Future enhancement)
  * */
 #include <stdio.h>
 #include <string.h>
@@ -45,7 +34,7 @@ std::map<int, provDetails>::iterator it;
  */
 class Provider
 {
-    constexpr static const char alphanum[]  =
+    constexpr static auto alphanum  =
             "0123456789"
             "!@#$%^&*"
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -79,7 +68,7 @@ int Provider::includeProvider(const std::string strInclPro, int sd)
         pMap.insert(std::pair<int, provDetails> (sd, pDet));
     }
     else {
-        std::cerr << "Maximum number of Providers Reached";
+        std::cerr << "Maximum number of Providers Reached" << std::endl;
     }
     return 0;
 }
@@ -243,8 +232,8 @@ int main(int argc , char *argv[])
     } else {
         printf("Listener on port %d \n", PORT);
 
-        //try to specify maximum of 3 pending connections for the master socket
-        if (listen(master_socket, 3) < 0) {
+        //try to specify maximum of 10 pending connections for the master socket
+        if (listen(master_socket, 10) < 0) {
             perror("listen");
             exit(EXIT_FAILURE);
         }
